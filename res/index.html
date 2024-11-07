@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filterm</title>
+    <link rel="stylesheet" href="semantic.min.css">
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="semantic.min.js"></script>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+            overflow: hidden;
+        }
+        
+        #terminal {
+            padding: 0.2em;
+            width: 100%;
+            height: calc(100% - 38px);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        #output {
+            overflow-y: auto;
+            flex: 1;
+            padding: 10px;
+        }
+
+        #input {
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-family: monospace;
+            font-size: 16px;
+            padding: 10px;
+            width: 100%;
+            outline: none;
+        }
+
+        #input:focus {
+            outline: none;
+        }
+
+        .ui.menu {
+            border-radius: 0 !important;
+        }
+
+        .ui.dropdown.item .menu {
+            border: none !important;
+        }
+
+        .ui.inverted.menu .ui.dropdown .menu .item {
+            background-color: #333 !important;
+            color: white !important;
+        }
+
+        .ui.inverted.menu .ui.dropdown .menu .item:hover {
+           background-color: #494949 !important;
+        }
+
+        #mainmenu{
+            margin-bottom: 0 !important;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="mainmenu" class="ui fluid inverted small menu">
+        <div class="ui dropdown item">
+            File
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <div class="item">New</div>
+                <div class="item">Save to File</div>
+                <div class="item">Disconnect</div>
+                <div class="item">Close</div>
+            </div>
+        </div>
+        <div class="ui dropdown item">
+            Edit
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <div class="item">Select All</div>
+                <div class="item">Copy</div>
+                <div class="item">Clear Buffer</div>
+                <div class="item">Show Statistics</div>
+            </div>
+        </div>
+        <div class="ui dropdown item">
+            Session
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <div class="item">Manage Filters</div>
+                <div class="item">Clear Screen</div>
+                <div class="item">Reset Terminal</div>
+            </div>
+        </div>
+        <div class="ui dropdown item">
+            Help
+            <i class="dropdown icon"></i>
+            <div class="menu">
+                <div class="item">Documentation</div>
+                <div class="item">About</div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="terminal">
+        <div id="output"></div>
+        <input id="input" type="text" autofocus>
+    </div>
+
+
+    <script>
+        $(document).ready(function() {
+            $('.ui.dropdown').dropdown();
+        });
+
+        const terminal = document.getElementById('terminal');
+        const output = document.getElementById('output');
+        const input = document.getElementById('input');
+
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const text = input.value;
+                appendText(text);
+                input.value = '';
+            }
+        });
+
+        function appendText(text) {
+            const newLine = document.createElement('div');
+            newLine.textContent = text;
+            output.appendChild(newLine);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+    </script>
+</body>
+</html>
